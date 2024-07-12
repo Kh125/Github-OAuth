@@ -3,11 +3,13 @@ const express = require("express");
 const path = require("path");
 
 // Client Secret Obtain from Github OAuth App
-const CLIENT_SECRET = "1234";
+const CLIENT_SECRET = "yoursecret";
 
 // Client ID Generated from Github OAuth App
-const CLIENT_ID = "123";
-var scope = "scope=user%20repo";
+const CLIENT_ID = "yourclientid";
+
+// Permission Scope for Github OAuth App
+var scope = "scope=user%20repo_deployment%20repo";
 
 const app = express();
 
@@ -42,6 +44,7 @@ app.get("/callback", async (req, res) => {
     return res.status(401).send("Unauthorized");
   }
 
+  // Fetch User Public and Private Repositories with the help of Access Token generated from Github OAuth App
   repoRes = await axios.get("https://api.github.com/user/repos", {
     headers: {
       Authorization: `token ${token}`,
